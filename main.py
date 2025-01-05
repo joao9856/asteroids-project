@@ -16,11 +16,13 @@ def main():
                 return
         
         
-        screen.fill((0,0,0))
+        screen.fill("black")
         player.draw(screen)
-        clock.tick(60)
-        dt = clock.tick()
         pygame.display.flip()
+
+
+        #framerate set to 60
+        dt = clock.tick(60) / 1000
 
 
     print("Starting asteroids!")
