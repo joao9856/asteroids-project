@@ -1,14 +1,19 @@
 import pygame
+import pygame.freetype
 from constants import *
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
+from score import Score
 
 def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
+    text_display = pygame.freetype.Font(None, 24)
+    scores = Score()
+    
 
 
     updatable = pygame.sprite.Group()
@@ -38,10 +43,12 @@ def main():
 
         for asteroid in asteroids:
             if player.collision(asteroid):
+                scores.set_highscore()
                 print("Game over!")
                 exit()
             for shot in shots:
                 if asteroid.collision(shot):
+                    scores.score_add()
                     asteroid.split()
                     shot.kill()
                     
@@ -52,6 +59,10 @@ def main():
         
         for item in drawable:
             item.draw(screen)
+        
+        
+        text_display.render_to(screen, (20,20), f"Score: {str(scores.score)}", "white")
+        text_display.render_to(screen, (SCREEN_WIDTH - 200,20), f"Highscore: {str(scores.highscore)}", "white")
         pygame.display.flip()
 
 
