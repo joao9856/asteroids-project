@@ -3,7 +3,7 @@ import json
 try:
     highscore = int(json.load(open("highscore.txt")))
 except:
-    json.dump("0",open("highscore.txt","w")) 
+    json.dump(0,open("highscore.txt","w")) 
     highscore = 0
 
 
