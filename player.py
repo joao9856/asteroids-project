@@ -11,6 +11,8 @@ class Player(CircleShape):
         self.radius = PLAYER_RADIUS
         self.rotation = 0
         self.timer = 0
+        self.lives = 3
+        self.respawn_proctection = 1
     
     # in the player class
     def triangle(self):
@@ -30,6 +32,7 @@ class Player(CircleShape):
     def update(self, dt):
         keys = pygame.key.get_pressed()
         self.timer -= dt
+        self.respawn_proctection -= dt
 
         if keys[pygame.K_a]:
             self.rotate(-dt)

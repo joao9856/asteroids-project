@@ -42,16 +42,20 @@ def main():
             item.update(dt)
 
         for asteroid in asteroids:
-            if player.collision(asteroid):
+            if player.collision(asteroid) and player.lives == 0 and player.respawn_proctection <= 0:
                 scores.set_highscore()
                 print("Game over!")
                 exit()
+            elif player.collision(asteroid) and player.lives > 0 and player.respawn_proctection <= 0:
+                player.lives -= 1
+                player.respawn_proctection = 1
             for shot in shots:
                 if asteroid.collision(shot):
                     scores.score_add()
                     asteroid.split()
                     shot.kill()
-                    
+        
+        text_respawn = f"Spawn protection: {"%.2f" % player.respawn_proctection}"           
         
         
 
@@ -61,8 +65,11 @@ def main():
             item.draw(screen)
         
         
-        text_display.render_to(screen, (20,20), f"Score: {str(scores.score)}", "white")
-        text_display.render_to(screen, (SCREEN_WIDTH - 200,20), f"Highscore: {str(scores.highscore)}", "white")
+        text_display.render_to(screen, (20,20), f"Score: {scores.score}", "white")
+        text_display.render_to(screen, (SCREEN_WIDTH - 200,20), f"Highscore: {scores.highscore}", "white")
+        text_display.render_to(screen, (SCREEN_WIDTH/2,20), f"Lives: {player.lives}", "pink")
+        if player.respawn_proctection > 0:
+            text_display.render_to(screen, ((SCREEN_WIDTH/2) - 100,40), text_respawn, "red")
         pygame.display.flip()
 
 
